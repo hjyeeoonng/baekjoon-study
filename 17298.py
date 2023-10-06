@@ -4,15 +4,22 @@ n=int(sys.stdin.readline())
 nums=list(map(int,sys.stdin.readline().split()))
 
 stack=deque()
-ans=""
+ans=[-1 for i in range(n)]
 
-for i in nums:
-    for j in range(len(stack)):
-        if stack[-1]<i:
-            ans+=" "+str(i)
+stack.append(nums[0])
+
+for i in range(1,n):
+    c=1
+    while stack:
+        if nums[i] > stack[-1]:
+            while ans[i-c]!=-1:
+                c+=1
+            ans[i-c]=nums[i]
             stack.pop()
-    if len(stack)==0:
-        ans+=" -1"
-    stack.append(i)
-ans+=" -1"
-print(ans.strip())
+            c+=1
+        else:
+            break
+    stack.append(nums[i])
+
+for i in ans:
+    print(i,end=" ")
